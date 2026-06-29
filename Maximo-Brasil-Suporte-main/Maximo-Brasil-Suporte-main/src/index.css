@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .card-stat {
+    @apply bg-white p-6 rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-md;
+  }
+  
+  .btn-primary {
+    @apply bg-navy-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-navy-800 transition-colors flex items-center gap-2;
+  }
+
+  .badge {
+    @apply px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider;
+  }
+}

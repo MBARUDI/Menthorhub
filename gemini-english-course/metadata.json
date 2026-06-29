@@ -1,0 +1,8 @@
+{
+  "name": "Gemini English Course",
+  "description": "An interactive English course from basic to advanced levels, powered by Gemini. It features lessons with text, grammar, exercises, and conversation practice.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

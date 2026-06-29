@@ -1,0 +1,8 @@
+{
+  "name": "ConsciousWallet",
+  "description": "A personal finance tool focusing on behavioral economics, conscious consumption, and decision-making matrices powered by Gemini AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

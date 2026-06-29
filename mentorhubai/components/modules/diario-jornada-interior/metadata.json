@@ -1,0 +1,8 @@
+{
+  "name": "Diário Jornada Interior",
+  "description": "Um aplicativo de diário guiado focado em autoconhecimento, gratidão e planejamento, inspirado em técnicas de coaching, mas com uma abordagem moderna e personalizada.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

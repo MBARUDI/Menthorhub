@@ -1,0 +1,8 @@
+{
+  "name": "PDCA Master - Gestão Pessoal",
+  "description": "Um aplicativo de gestão pessoal baseado na metodologia PDCA (Plan, Do, Check, Act) com suporte de IA para otimizar seus planejamentos e análises.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

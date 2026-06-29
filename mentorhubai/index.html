@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MentorhubAI</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/html2canvas-pro@latest/dist/html2canvas-pro.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.min.js"></script>
+    <script src="https://unpkg.com/pptxgenjs@latest/dist/pptxgen.bundle.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              cinzel: ['Cinzel', 'serif'],
+              lato: ['Lato', 'sans-serif'],
+              display: ['"Outfit"', 'sans-serif'],
+              body: ['"DM Sans"', 'sans-serif'],
+            },
+            colors: {
+              'android-bg': '#121212',
+              'android-surface': '#1E1E1E',
+              'android-accent': '#BB86FC',
+              'android-success': '#03DAC6',
+              'app-icon-bg': '#2C2C2C',
+              'gold': {
+                400: '#D4AF37',
+                500: '#C5A028',
+                600: '#B49020',
+              },
+              obsidian: {
+                50: '#e8ecf4',
+                100: '#c5cde3',
+                200: '#9facd0',
+                300: '#7a8bbd',
+                400: '#5e72ae',
+                500: '#4259a0',
+                600: '#3a4f91',
+                700: '#2f417d',
+                800: '#253469',
+                900: '#162046',
+                950: '#0B1120',
+              },
+              glass: {
+                light: 'rgba(255, 255, 255, 0.06)',
+                medium: 'rgba(255, 255, 255, 0.10)',
+                heavy: 'rgba(255, 255, 255, 0.15)',
+                border: 'rgba(255, 255, 255, 0.08)',
+              },
+            },
+            backgroundImage: {
+              'mesh-gradient': 'radial-gradient(at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%), radial-gradient(at 80% 20%, rgba(139, 92, 246, 0.10) 0%, transparent 50%), radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.4s ease-out',
+              'slide-up': 'slideUp 0.4s ease-out',
+              'slide-down': 'slideDown 0.3s ease-out',
+              'scale-in': 'scaleIn 0.3s ease-out',
+              'check': 'check 0.3s ease-out forwards',
+              'progress': 'progress 1s ease-out forwards',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'shimmer': 'shimmer 2s linear infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(16px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              slideDown: {
+                '0%': { opacity: '0', transform: 'translateY(-8px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              check: {
+                '0%': { transform: 'scale(0)' },
+                '50%': { transform: 'scale(1.2)' },
+                '100%': { transform: 'scale(1)' },
+              },
+              progress: {
+                '0%': { width: '0%' },
+              },
+              shimmer: {
+                '0%': { backgroundPosition: '-200% 0' },
+                '100%': { backgroundPosition: '200% 0' },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  <style>
+      body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: 'Roboto', sans-serif; /* Typical Android font */
+        overflow: hidden; /* Prevent body scroll, handle inside app */
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #121212; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

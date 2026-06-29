@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: documents
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, 1-100 chars)
+    //   - validity: string (required, ISO 8601)
+    //   - uid: string (required, owner UID)
+    //   - createdAt: timestamp (optional)
+    //
+    // Collection: employees
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, 1-100 chars)
+    //   - uid: string (required, owner UID)
+    //   - createdAt: timestamp (optional)
+    //
+    // Collection: trainings
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, 1-100 chars)
+    //   - uid: string (required, owner UID)
+    //   - createdAt: timestamp (optional)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == resource.data.uid;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+             request.resource.data[field].size() >= minLen &&
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidDocument(data) {
+      return hasRequiredFields(['name', 'validity', 'uid']) &&
+             isValidString('name', 1, 100) &&
+             isValidString('validity', 1, 50) &&
+             data.uid == request.auth.uid;
+    }
+
+    function isValidEmployee(data) {
+      return hasRequiredFields(['name', 'uid']) &&
+             isValidString('name', 1, 100) &&
+             data.uid == request.auth.uid;
+    }
+
+    function isValidTraining(data) {
+      return hasRequiredFields(['name', 'uid']) &&
+             isValidString('name', 1, 100) &&
+             data.uid == request.auth.uid;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /documents/{docId} {
+      allow read: if isDocOwner();
+      allow create: if isAuthenticated() && isValidDocument(request.resource.data) && uidUnchanged();
+      allow update: if isDocOwner() && isValidDocument(request.resource.data) && uidNotModified();
+      allow delete: if isDocOwner();
+    }
+
+    match /employees/{empId} {
+      allow read: if isDocOwner();
+      allow create: if isAuthenticated() && isValidEmployee(request.resource.data) && uidUnchanged();
+      allow update: if isDocOwner() && isValidEmployee(request.resource.data) && uidNotModified();
+      allow delete: if isDocOwner();
+    }
+
+    match /trainings/{trainId} {
+      allow read: if isDocOwner();
+      allow create: if isAuthenticated() && isValidTraining(request.resource.data) && uidUnchanged();
+      allow update: if isDocOwner() && isValidTraining(request.resource.data) && uidNotModified();
+      allow delete: if isDocOwner();
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

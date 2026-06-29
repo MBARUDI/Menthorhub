@@ -1,0 +1,8 @@
+{
+  "name": "Remix: MentorhubAI",
+  "description": "Your intelligent knowledge hub. Transform your potential with personalized AI-driven courses, safety training, and development tools in a familiar, intuitive interface.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

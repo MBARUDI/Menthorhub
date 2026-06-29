@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "Document": {
+      "title": "Document",
+      "description": "A safety document with validity tracking",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the document" },
+        "validity": { "type": "string", "description": "Validity date string" },
+        "uid": { "type": "string", "description": "Owner's user ID" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "validity", "uid"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "A company employee",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Full name" },
+        "uid": { "type": "string", "description": "Owner's user ID" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "uid"]
+    },
+    "Training": {
+      "title": "Training",
+      "description": "A safety training session",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Training name" },
+        "uid": { "type": "string", "description": "Owner's user ID" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "uid"]
+    }
+  },
+  "firestore": {
+    "/documents/{docId}": {
+      "schema": "Document",
+      "description": "Collection of safety documents"
+    },
+    "/employees/{empId}": {
+      "schema": "Employee",
+      "description": "Collection of employees"
+    },
+    "/trainings/{trainId}": {
+      "schema": "Training",
+      "description": "Collection of training sessions"
+    }
+  }
+}
