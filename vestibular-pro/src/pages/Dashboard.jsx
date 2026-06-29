@@ -14,6 +14,80 @@ const Dashboard = () => {
 
   const averages = getSubjectAverages();
 
+  // Helper to compute remaining days from current local date dynamically
+  const getDaysRemaining = (targetDateStr) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const target = new Date(targetDateStr);
+    target.setHours(0, 0, 0, 0);
+    const diffTime = target.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 0 ? diffDays : 0;
+  };
+
+  const vestibularDates = [
+    {
+      nome: "Abertura Inscrições FGV",
+      data: "27/07/2026",
+      targetDate: "2026-07-27",
+      info: "Abertura das inscrições"
+    },
+    {
+      nome: "Inscrições Insper",
+      data: "17/09/2026",
+      targetDate: "2026-09-17",
+      info: "Data limite para isenção/bolsa"
+    },
+    {
+      nome: "Insper 2027.1 (Aplicação)",
+      data: "11/10/2026",
+      targetDate: "2026-10-11",
+      info: "Aplicação oficial da prova"
+    },
+    {
+      nome: "FGV 2027.1 (Aplicação)",
+      data: "18/10/2026",
+      targetDate: "2026-10-18",
+      info: "Provas aplicadas nos dias 18 e 19/10"
+    },
+    {
+      nome: "FUVEST 2027 (1ª Fase)",
+      data: "01/11/2026",
+      targetDate: "2026-11-01",
+      info: "Prova com 80 questões"
+    },
+    {
+      nome: "ENEM 2026 (1º Dia)",
+      data: "08/11/2026",
+      targetDate: "2026-11-08",
+      info: "Linguagens, Humanas e Redação"
+    },
+    {
+      nome: "ENEM 2026 (2º Dia)",
+      data: "15/11/2026",
+      targetDate: "2026-11-15",
+      info: "Matemática e Ciências da Natureza"
+    },
+    {
+      nome: "FUVEST 2027 (2ª Fase)",
+      data: "06/12/2026",
+      targetDate: "2026-12-06",
+      info: "Provas dissertativas nos dias 6 e 7/12"
+    },
+    {
+      nome: "FUVEST 2027 (Específicas)",
+      data: "08/12/2026",
+      targetDate: "2026-12-08",
+      info: "Competências Específicas (8 a 11/12)"
+    }
+  ];
+
+  const sortedDates = vestibularDates
+    .map(d => ({ ...d, dias: getDaysRemaining(d.targetDate) }))
+    .sort((a, b) => a.dias - b.dias);
+
+  const diasFuvest = getDaysRemaining("2026-11-01");
+
   // Calculate estimated scores based on actual simulation averages
   // We take the average percentage across all simulators
   const totalSimulados = simulados.length;
@@ -38,7 +112,7 @@ const Dashboard = () => {
           Bom dia, {userProfile.nome}.
         </h1>
         <p className="section-subtitle">
-          Faltam 142 dias para a FUVEST. Vamos garantir sua vaga em <strong>{userProfile.foco}</strong> hoje?
+          Faltam {diasFuvest} dias para a FUVEST. Vamos garantir sua vaga em <strong>{userProfile.foco}</strong> hoje?
         </p>
       </header>
 
@@ -88,6 +162,57 @@ const Dashboard = () => {
           <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>Exercícios + simulados</span>
         </div>
       </div>
+
+      {/* Cronômetro dos Vestibulares */}
+      <section style={{ marginBottom: '32px' }}>
+        <h2 className="font-title" style={{ fontSize: '1.4rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Calendar size={20} color="var(--primary)" />
+          Cronômetro dos Vestibulares 2026/2027
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+          {sortedDates.map((item, index) => {
+            const isCritical = item.dias <= 90;
+            const isUrgent = item.dias <= 30;
+            const borderCol = isUrgent ? 'var(--error)' : isCritical ? 'var(--secondary)' : 'var(--border-color)';
+            const daysColor = isUrgent ? 'var(--error)' : isCritical ? 'var(--secondary)' : 'var(--success)';
+            
+            return (
+              <div 
+                key={index} 
+                className="panel panel-interactive" 
+                style={{ 
+                  borderTop: `4px solid ${borderCol}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '140px',
+                  position: 'relative'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+                    <h3 className="font-title" style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                      {item.nome}
+                    </h3>
+                  </div>
+                  <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                    {item.data}
+                  </span>
+                </div>
+                <div style={{ margin: '12px 0' }}>
+                  <div className="font-mono" style={{ fontSize: '2rem', fontWeight: 700, color: daysColor, display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                    {item.dias} 
+                    <span style={{ fontSize: '0.85rem', fontWeight: 400, color: 'var(--text-secondary)' }}>dias restantes</span>
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', borderTop: '1px solid var(--border-color)', paddingTop: '8px' }}>
+                  {item.info}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '32px' }}>
         {/* Desempenho por Matéria Bar Chart */}
