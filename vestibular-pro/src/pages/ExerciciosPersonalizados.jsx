@@ -26,7 +26,7 @@ const ExerciciosPersonalizados = () => {
       name: "OpenRouter",
       url: "https://openrouter.ai/api/v1/chat/completions",
       key: orKey,
-      model: "google/gemini-2.5-flash"
+      model: "google/gemma-4-31b-it:free"
     }
   ];
 
